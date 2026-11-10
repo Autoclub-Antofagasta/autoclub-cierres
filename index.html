@@ -297,7 +297,7 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
       ['Margen tras MP y personal', m => m.ind.margen, clp, true], ['Margen % venta', m => m.ind.margen_pct, pc, true, true], ['Costo según recetas %', m => m.ind.costo_receta_pct, pc, false, true]];
     const s = sect('Indicadores por mes', 'Cada columna es un cierre. La variación es contra el mes anterior.');
     const rows = ind.map(([n, f, fm, bueno, pct]) => { const o = { n }; M.forEach((m, k) => { const v = f(m); o['m' + k] = v; o['t' + k] = fm(v) + (k ? delta(v, f(M[k - 1]), { pct: !!pct, bueno }) : ''); }); return o; });
-    s.append(tabla([{ k: 'n', t: 'Indicador', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta + , f: r => r['t' + k] }))], rows, { fijo: true })); el.append(s);
+    s.append(tabla([{ k: 'n', t: 'Indicador', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta, f: r => r['t' + k] }))], rows, { fijo: true })); el.append(s);
     if (M.length >= 2) {
       const ch = [['Venta neta', m => m.ind.venta, v => mm(v)], ['Costo de MP % venta', m => m.ind.costo_directo_pct, v => pc(v)], ['Personal % venta', m => m.ind.personal_pct, v => pc(v)], ['Margen % venta', m => m.ind.margen_pct, v => pc(v)]];
       const g = ch.map(([t, f, fm]) => { const x = sect(t, '', '<div class="chart" style="min-height:200px"></div>'); setTimeout(() => barras(x.querySelector('.chart'), M.map(m => ({ n: m.etiqueta.split(' ')[0].slice(0, 3), v: f(m), full: m.etiqueta })), { x: d => d.n, y: d => d.v, fmt: v => fm(v), label: d => `<b>${d.full}</b><br>${fm(d.v)}` }), 0); return x; });
