@@ -71,7 +71,7 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
 <body>
 <div class="wrap">
   <div class="top">
-    <div><h1>Cierres de mes<span class="badge" id="prov" hidden>PROVISORIO</span></h1><p class="note" id="rango">Autoclub · ventas, costos, personal y rentabilidad</p></div>
+    <div><h1>Cierres de mes</h1><p class="note" id="rango">Autoclub · ventas, costos, personal y rentabilidad</p></div>
     <div class="ctl">
       <label>Mes<select id="mes"></select></label>
       <label>Comparar con<select id="comp"></select></label>
@@ -190,13 +190,13 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
     const i = m.ind, ci = c && c.ind, dr = diasReales(m);
     const venta = i.venta, vd = venta / dr.length;
     el.insertAdjacentHTML('beforeend', '<div class="tiles">' +
-      tile('Venta neta (sin IVA)', mm(venta), `${clp(venta * 1.19)} con IVA · ${dr.length} días con venta real${m.ventas_dia.length > dr.length ? ' (+' + (m.ventas_dia.length - dr.length) + ' de prueba)' : ''}${ci ? '<br>vs ' + c.etiqueta + ':' + delta(venta, ci.venta) : ''}`) +
+      tile('Venta neta (sin IVA)', mm(venta), `${clp(venta * 1.19)} con IVA · ${dr.length} días con venta${ci ? '<br>vs ' + c.etiqueta + ':' + delta(venta, ci.venta) : ''}`) +
       tile('Costo de materia prima', pc(i.costo_directo_pct), `${mm(i.consumo)} de consumo real${ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.costo_directo_pct, ci.costo_directo_pct, { pct: true, bueno: false }) : ''}`) +
       tile('Personal', pc(i.personal_pct), `${mm(i.personal)} costo empresa${ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.personal_pct, ci.personal_pct, { pct: true, bueno: false }) : ''}`) +
       tile('Margen tras MP y personal', mm(i.margen), `${pc(i.margen_pct)} de la venta${ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.margen_pct, ci.margen_pct, { pct: true }) : ''}`) +
       tile('Venta por día de operación', clp(vd), `promedio, ${dr.length} días${ci ? '<br>vs ' + c.etiqueta + ':' + delta(vd, ci.venta / diasReales(c).length) : ''}`) + '</div>');
     if (!c) el.insertAdjacentHTML('beforeend', aviso('Es el único cierre cargado, así que no hay con qué comparar todavía. Al cargar el siguiente mes, cada indicador mostrará su variación y se activará la pestaña <b>Comparar meses</b>.'));
-    const s = sect('Dónde va cada $100 de venta', 'Materia prima = inventario inicial + compras de alimentos y bebestibles − inventario final. Personal = costo empresa del libro de remuneraciones. Lo que queda es margen antes de arriendo, servicios, impuestos y otros gastos.',
+    const s = sect('Dónde va cada $100 de venta', 'Materia prima = inventario inicial + compras de alimentos y bebestibles − inventario de cierre. Personal = costo empresa del libro de remuneraciones. Margen = venta − materia prima − personal.',
       stack([{ t: 'Materia prima', v: i.consumo, c: 'var(--s4)' }, { t: 'Personal', v: i.personal, c: 'var(--s2)' }, { t: 'Margen', v: Math.max(0, i.margen), c: 'var(--ok)' }])); el.append(s);
     // lectura rápida (solo hechos del período)
     const pdw = DIAS.map((n, k) => { const x = dr.filter(d => wd(d.f) === k); return { n, v: x.length ? sum(x, d => d.v) / x.length : 0, c: x.length }; }).filter(d => d.c);
@@ -206,7 +206,7 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
     const L = [`Mejor día de la semana: <b>${mejorDia.n}</b> (promedio ${clp(mejorDia.v)} neto, ${mejorDia.c} días). Mejor día del mes: <b>${fmtF(mejorFecha.f)}</b> con ${clp(mejorFecha.v)}.`,
       `Productos más vendidos en dinero: ${top.map(p => `<b>${p.p}</b> (${clp(p.neto)})`).join(', ')}.`,
       `Rubro que más vende: <b>${rub0.rubro}</b>, ${pc(rub0.neto / m.ranking_neto)} de la venta del POS.`,
-      `Costo de materia prima real ${pc(i.costo_directo_pct)} frente a ${pc(i.costo_receta_pct)} que dan las recetas (sobre el ${pc(i.cobertura_costo_receta, 0)} de la venta que tiene costo de receta): ${i.costo_directo_pct > i.costo_receta_pct ? 'la diferencia es merma, porciones de más, inventario estimado o compras de bodega' : 'consumo real por debajo de la receta: revisar inventario'}.`];
+      `Costo de materia prima real ${pc(i.costo_directo_pct)}; costo según recetas ${pc(i.costo_receta_pct)} (sobre el ${pc(i.cobertura_costo_receta, 0)} de la venta con receta costeada).`];
     const r = sect('Lectura rápida'); r.insertAdjacentHTML('beforeend', '<ul class="ins">' + L.map(x => `<li>${x}</li>`).join('') + '</ul>'); el.append(r);
     if (m.notas && m.notas.length) { const n = sect('Notas de este cierre', 'Tal como quedaron en el libro de análisis de costos.'); n.insertAdjacentHTML('beforeend', '<ul class="ins">' + m.notas.map(x => `<li>${x}</li>`).join('') + '</ul>'); el.append(n); }
     const fu = sect('De dónde sale cada cifra'); fu.insertAdjacentHTML('beforeend', '<dl class="fuentes">' + Object.entries(m.fuentes).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('') + `</dl><p class="fuentes">Datos cargados el ${m.generado.replace('T', ' ')}.</p>`); el.append(fu);
@@ -218,7 +218,7 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
     const cvd = c ? c.ind.venta / diasReales(c).length : null;
     el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Venta neta', mm(venta), `${dr.length} días de operación`) + tile('Promedio por día', clp(vd), c ? 'vs ' + c.etiqueta + ':' + delta(vd, cvd) : 'neto, sin IVA') +
       tile('Mejor día', clp(mejor.v), fmtF(mejor.f)) + tile('Día más bajo', clp(peor.v), fmtF(peor.f)) + '</div>');
-    const ex = excl(m); if (ex.length) el.insertAdjacentHTML('beforeend', aviso(`No cuentan en promedios ni en "día más bajo" los días bajo ${clp(UMBRAL)} (prueba de apertura): ${ex.map(d => fmtF(d.f) + ' ' + clp(d.v)).join(', ')}. Sí suman en la venta total.`));
+    const ex = excl(m); if (ex.length) el.insertAdjacentHTML('beforeend', aviso(`Promedios y "día más bajo" sobre los días con venta de ${clp(UMBRAL)} o más. Los demás (${ex.map(d => fmtF(d.f) + ' ' + clp(d.v)).join(', ')}) suman en la venta total.`));
     const s1 = sect('Venta neta por día', 'Barras oscuras: viernes y sábado.', '<div class="chart" id="ch-dia"></div>'); el.append(s1);
     barras(s1.querySelector('#ch-dia'), m.ventas_dia, { x: d => d.f, y: d => d.v, fmt: v => v >= 1e6 ? (v / 1e6).toLocaleString('es-CL') + ' MM' : int(v / 1000) + ' mil', label: d => `<b>${fmtF(d.f)}</b><br>${clp(d.v)} neto`, color: d => [4, 5].includes(wd(d.f)) ? 'var(--s3)' : 'var(--s2)' });
     const pdw = DIAS.map((n, k) => { const x = dr.filter(d => wd(d.f) === k); return { n, v: x.length ? sum(x, d => d.v) / x.length : 0, c: x.length, t: sum(x, d => d.v) }; }).filter(d => d.c);
@@ -241,19 +241,18 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
   function vCostos(m, c, el) {
     const i = m.ind, ci = c && c.ind;
     el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Compras de materia prima', mm(i.compras_mp), 'neto + impuesto específico de bebidas' + (ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.compras_mp, ci.compras_mp, { bueno: false }) : '')) +
-      tile('Inventario final', mm(i.inv_final), 'valorizado con precio de factura') + tile('Consumo real', mm(i.consumo), `${pc(i.costo_directo_pct)} de la venta`) + tile('Compras / venta', pc(i.compras_mp / i.venta), 'no es el costo (no considera inventario)') + '</div>');
+      tile('Inventario de cierre', mm(i.inv_final), 'valorizado del mes') + tile('Consumo real', mm(i.consumo), `${pc(i.costo_directo_pct)} de la venta`) + tile('Compras / venta', pc(i.compras_mp / i.venta), 'compras del mes sobre la venta') + '</div>');
     const cons = sect('Cómo se calcula el consumo real');
     cons.append(tabla([{ k: 'c', t: 'Concepto', tl: true }, { k: 'v', t: 'Monto', f: r => clp(r.v) }, { k: 'p', t: '% de la venta', f: r => pc(r.v / i.venta) }],
-      [{ c: 'Inventario inicial', v: i.inv_inicial }, { c: '+ Compras de alimentos y bebestibles', v: i.compras_mp }, { c: '− Inventario final', v: -i.inv_final }], { fijo: true, total: { c: '= Consumo real', v: i.consumo, p: 0 } }));
-    const inv = sect('Inventario final por familia', 'Conteo físico valorizado. Aseo y desechables están dentro de "Otros / aseo".'); inv.append(tabla([{ k: 'fam', t: 'Familia', tl: true }, { k: 'v', t: 'Valor', f: r => clp(r.v) + `<span class="bar" style="width:${r.v / (m.inventario_familia[0].v || 1) * 3}rem"></span>` }, { k: 'p', t: '%', f: r => pc(r.v / i.inv_final) }], m.inventario_familia.map(f => ({ ...f, p: f.v / i.inv_final })), { sort: 'v' }));
+      [{ c: 'Inventario inicial', v: i.inv_inicial }, { c: '+ Compras de alimentos y bebestibles', v: i.compras_mp }, { c: '− Inventario de cierre', v: -i.inv_final }], { fijo: true, total: { c: '= Consumo real', v: i.consumo, p: 0 } }));
+    const inv = sect('Inventario de cierre por familia', 'Aseo y desechables están dentro de "Otros / aseo".'); inv.append(tabla([{ k: 'fam', t: 'Familia', tl: true }, { k: 'v', t: 'Valor', f: r => clp(r.v) + `<span class="bar" style="width:${r.v / (m.inventario_familia[0].v || 1) * 3}rem"></span>` }, { k: 'p', t: '%', f: r => pc(r.v / i.inv_final) }], m.inventario_familia.map(f => ({ ...f, p: f.v / i.inv_final })), { sort: 'v' }));
     gc(el, [cons, inv]);
     const tc = sum(m.compras_categoria, x => x.v);
-    const cat = sect('Compras del período por categoría', 'Solo ALIMENTOS entra al costo de materia prima. Implementación, equipamiento y uniformes son inversión de apertura y no se restan del margen.');
+    const cat = sect('Compras del período por categoría', 'Solo ALIMENTOS entra al costo de materia prima. Implementación, equipamiento y uniformes se informan aparte.');
     cat.append(tabla([{ k: 'cat', t: 'Categoría', tl: true }, { k: 'v', t: 'Monto', f: r => clp(r.v) }, { k: 'p', t: '% del total', f: r => pc(r.v / tc) }, { k: 'e', t: 'En el margen', tl: true, n: true, f: r => r.cat === 'ALIMENTOS' ? 'Sí' : 'No (aparte)' }], m.compras_categoria.map(x => ({ ...x, p: x.v / tc, e: x.cat })), { sort: 'v', total: { cat: 'Total', v: tc, p: 1, e: '' } }));
-    const pv = sect('Proveedores de alimentos y bebestibles', 'Los 25 con más compras (neto + impuesto específico), del libro de compras.');
+    const pv = sect('Proveedores de alimentos y bebestibles', 'Los 25 con más compras de alimentos y bebestibles (neto + impuesto específico).');
     const ta = i.compras_mp; pv.append(tabla([{ k: 'prov', t: 'Proveedor', tl: true }, { k: 'v', t: 'Monto', f: r => clp(r.v) + `<span class="bar" style="width:${r.v / (m.compras_prov[0].v || 1) * 3}rem"></span>` }, { k: 'p', t: '% de alimentos', f: r => pc(r.v / ta) }, { k: 'n', t: 'Facturas', n: true }], m.compras_prov.map(x => ({ ...x, p: x.v / ta })), { sort: 'v' }));
     gc(el, [cat, pv]);
-    el.insertAdjacentHTML('beforeend', aviso('Este cierre no incluye arriendo, servicios básicos, impuestos ni otros gastos fijos: solo materia prima y personal. Si los quieres en el margen hay que cargarlos al cierre.'));
   }
 
   function vPersonal(m, c, el) {
@@ -276,29 +275,29 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
   function vRent(m, c, el) {
     const i = m.ind, pr = m.productos, conC = pr.filter(p => p.cu != null && p.neto_con > 0);
     el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Margen tras MP y personal', mm(i.margen), pc(i.margen_pct) + ' de la venta' + (c ? '<br>vs ' + c.etiqueta + ':' + delta(i.margen_pct, c.ind.margen_pct, { pct: true }) : '')) +
-      tile('Costo real de MP', pc(i.costo_directo_pct), 'consumo de inventario / venta') + tile('Costo según recetas', pc(i.costo_receta_pct), `sobre el ${pc(i.cobertura_costo_receta, 0)} de la venta con costo`) + tile('Brecha real − receta', ((i.costo_directo_pct - i.costo_receta_pct) * 100).toLocaleString('es-CL', { maximumFractionDigits: 1 }) + ' pts', 'merma, porciones, inventario estimado') + '</div>');
-    el.insertAdjacentHTML('beforeend', aviso(`El margen por producto se calcula solo con los productos cuyo nombre calza con Pricing (costo real de receta, corte ${m.costo_corte}): <b>${pc(i.cobertura_costo_receta, 0)}</b> de la venta. Sin costo no se muestra margen (no se estima). La brecha contra el costo real mezcla dos medidas distintas: no es un error, es la pista de dónde mirar.`));
+      tile('Costo real de MP', pc(i.costo_directo_pct), 'consumo de inventario / venta') + tile('Costo según recetas', pc(i.costo_receta_pct), `sobre el ${pc(i.cobertura_costo_receta, 0)} de la venta con receta costeada`) + tile('Diferencia real − receta', ((i.costo_directo_pct - i.costo_receta_pct) * 100).toLocaleString('es-CL', { maximumFractionDigits: 1 }) + ' pts', 'costo real menos costo de receta') + '</div>');
+    el.insertAdjacentHTML('beforeend', aviso(`El margen por producto considera las recetas costeadas en Pricing (corte ${m.costo_corte}), que cubren el <b>${pc(i.cobertura_costo_receta, 0)}</b> de la venta.`));
     const rr = m.rubros.map(r => ({ ...r, mg: r.neto_con ? 1 - r.costo / r.neto_con : null, mgd: r.neto_con - r.costo, cob: r.neto ? r.neto_con / r.neto : 0 }));
-    const s1 = sect('Margen de receta por rubro', 'Margen = venta − costo de receta, solo sobre lo que tiene costo. "Cobertura" = parte del rubro con costo.');
+    const s1 = sect('Margen de receta por rubro', 'Margen = venta − costo de receta. "Cobertura" = parte del rubro con receta costeada.');
     s1.append(tabla([{ k: 'rubro', t: 'Rubro', tl: true }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg) }, { k: 'mgd', t: 'Margen $', f: r => r.neto_con ? clp(r.mgd) : '—' }, { k: 'cob', t: 'Cobertura', f: r => pc(r.cob, 0), cls: r => r.cob < .5 ? 'warn' : '' }], rr, { sort: 'neto' })); el.append(s1);
     const pm = conC.filter(p => p.neto >= 150000).map(p => ({ ...p, mg: 1 - p.costo / p.neto_con, mgd: p.neto_con - p.costo }));
-    const s2 = sect('Productos con menor margen %', 'Solo productos con venta de $150.000 o más en el mes y costo conocido.'); s2.append(tabla([{ k: 'p', t: 'Producto', tl: true }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }, { k: 'cu', t: 'Costo unit.', f: r => clp(r.cu), n: true }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg), cls: r => r.mg < .6 ? 'warn' : '' }], pm.sort((a, b) => a.mg - b.mg).slice(0, 15), { sort: 'mg' }));
+    const s2 = sect('Productos con menor margen %', 'Productos con venta de $150.000 o más en el mes.'); s2.append(tabla([{ k: 'p', t: 'Producto', tl: true }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }, { k: 'cu', t: 'Costo unit.', f: r => clp(r.cu), n: true }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg), cls: r => r.mg < .6 ? 'warn' : '' }], pm.sort((a, b) => a.mg - b.mg).slice(0, 15), { sort: 'mg' }));
     const s3 = sect('Productos que más margen dejan ($)', 'Margen de receta en pesos: lo que más aporta al negocio.'); s3.append(tabla([{ k: 'p', t: 'Producto', tl: true }, { k: 'un', t: 'Unid.', f: r => int(r.un) }, { k: 'mgd', t: 'Margen $', f: r => clp(r.mgd) }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg) }], pm.slice().sort((a, b) => b.mgd - a.mgd).slice(0, 15), { sort: 'mgd' }));
     gc(el, [s2, s3]);
     const sin = pr.filter(p => p.cu == null).slice(0, 15);
-    const s4 = sect('Mayores ventas sin costo de receta', 'Pendientes de costear o de confirmar a qué producto de Pricing equivalen.'); s4.append(tabla([{ k: 'p', t: 'Producto del POS', tl: true }, { k: 'r', t: 'Rubro', tl: true, n: true }, { k: 'un', t: 'Unid.', f: r => int(r.un) }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }], sin, { sort: 'neto' })); el.append(s4);
+    const s4 = sect('Ventas sin receta costeada'); s4.append(tabla([{ k: 'p', t: 'Producto del POS', tl: true }, { k: 'r', t: 'Rubro', tl: true, n: true }, { k: 'un', t: 'Unid.', f: r => int(r.un) }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }], sin, { sort: 'neto' })); el.append(s4);
   }
 
   function vMeses(el) {
-    if (M.length < 2) { el.insertAdjacentHTML('beforeend', aviso(`Hay un solo cierre cargado (<b>${M[0].etiqueta}</b>). Esta pestaña compara todos los meses lado a lado y se llena sola al cargar el siguiente. Para cargarlo: <code>cierre_mes.py preparar AAAA-MM</code> y luego <code>cargar AAAA-MM</code>.`)); }
+    if (M.length < 2) { el.insertAdjacentHTML('beforeend', aviso(`Hay un solo cierre cargado (<b>${M[0].etiqueta}</b>). Esta pestaña compara todos los meses lado a lado y se llena sola al cargar el siguiente. Se llena al cargar el siguiente cierre.`)); }
     const ind = [
       ['Venta neta', m => m.ind.venta, clp, true], ['Días de operación', m => diasReales(m).length, int, true], ['Venta por día', m => m.ind.venta / diasReales(m).length, clp, true],
       ['Compras de MP', m => m.ind.compras_mp, clp, false], ['Consumo real de MP', m => m.ind.consumo, clp, false], ['Costo de MP % venta', m => m.ind.costo_directo_pct, pc, false, true],
       ['Personal (costo empresa)', m => m.ind.personal, clp, false], ['Personal % venta', m => m.ind.personal_pct, pc, false, true], ['Personal sin extraordinario % venta', m => m.ind.personal_sin_extra / m.ind.venta, pc, false, true],
       ['Margen tras MP y personal', m => m.ind.margen, clp, true], ['Margen % venta', m => m.ind.margen_pct, pc, true, true], ['Costo según recetas %', m => m.ind.costo_receta_pct, pc, false, true]];
-    const s = sect('Indicadores por mes', 'Cada columna es un cierre. La variación es contra el mes anterior. Los meses provisorios llevan *.');
+    const s = sect('Indicadores por mes', 'Cada columna es un cierre. La variación es contra el mes anterior.');
     const rows = ind.map(([n, f, fm, bueno, pct]) => { const o = { n }; M.forEach((m, k) => { const v = f(m); o['m' + k] = v; o['t' + k] = fm(v) + (k ? delta(v, f(M[k - 1]), { pct: !!pct, bueno }) : ''); }); return o; });
-    s.append(tabla([{ k: 'n', t: 'Indicador', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta + (m.provisorio ? '*' : ''), f: r => r['t' + k] }))], rows, { fijo: true })); el.append(s);
+    s.append(tabla([{ k: 'n', t: 'Indicador', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta + , f: r => r['t' + k] }))], rows, { fijo: true })); el.append(s);
     if (M.length >= 2) {
       const ch = [['Venta neta', m => m.ind.venta, v => mm(v)], ['Costo de MP % venta', m => m.ind.costo_directo_pct, v => pc(v)], ['Personal % venta', m => m.ind.personal_pct, v => pc(v)], ['Margen % venta', m => m.ind.margen_pct, v => pc(v)]];
       const g = ch.map(([t, f, fm]) => { const x = sect(t, '', '<div class="chart" style="min-height:200px"></div>'); setTimeout(() => barras(x.querySelector('.chart'), M.map(m => ({ n: m.etiqueta.split(' ')[0].slice(0, 3), v: f(m), full: m.etiqueta })), { x: d => d.n, y: d => d.v, fmt: v => fm(v), label: d => `<b>${d.full}</b><br>${fm(d.v)}` }), 0); return x; });
@@ -313,7 +312,7 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
 
   // ---------------- control
   const selM = document.getElementById('mes'), selC = document.getElementById('comp');
-  M.slice().reverse().forEach(m => selM.insertAdjacentHTML('beforeend', `<option value="${m.periodo}">${m.etiqueta}${m.provisorio ? ' (provisorio)' : ''}</option>`));
+  M.slice().reverse().forEach(m => selM.insertAdjacentHTML('beforeend', `<option value="${m.periodo}">${m.etiqueta}</option>`));
   let vista = 'resumen';
   function llenaComp() {
     const k = M.findIndex(m => m.periodo === selM.value);
@@ -322,7 +321,6 @@ ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
   }
   function pintar() {
     const m = M.find(x => x.periodo === selM.value), c = M.find(x => x.periodo === selC.value);
-    document.getElementById('prov').hidden = !m.provisorio;
     document.getElementById('rango').textContent = `${m.etiqueta} · ventas del ${fmtF(m.ventas_dia[0].f)} al ${fmtF(m.ventas_dia[m.ventas_dia.length - 1].f)} · compras ${m.fuentes.compras.match(/facturas (.*)$/)[1].replace(' a ', ' al ')}`;
     selM.parentElement.hidden = selC.parentElement.hidden = vista === 'meses';
     cuerpo.innerHTML = '';
