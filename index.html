@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Cierres de mes · Autoclub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Libre+Franklin:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F5F0E6;--fg:#1d1b2e;--mut:#6b6880;--panel:#FBF8F1;--line:#dcd6c6;--ok:#1f7a4a;--bad:#b3261e;--warn:#9a6a00;
+ --s1:#c4c4e0;--s2:#7f7fc4;--s3:#1A1A78;--s4:#c98a2b;--grid:#e7e1d3;--serif:'EB Garamond',Georgia,serif;--sans:'Libre Franklin',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141322;--fg:#ecebf5;--mut:#a3a1b8;--panel:#1c1b2e;--line:#34324a;--ok:#5fcf93;--bad:#f2867c;--warn:#e0b04a;--s1:#4a4a6e;--s2:#7c7cc8;--s3:#b4b4ff;--s4:#e0a850;--grid:#2a2940}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px}
+.wrap{max-width:76rem;margin:0 auto;padding:20px 16px 72px;display:grid;gap:20px}
+h1{font-family:var(--serif);font-weight:400;font-size:2rem;margin:0}
+h2{font-size:1.05rem;font-weight:600;margin:0}
+.note{color:var(--mut);font-size:.8rem;margin:4px 0 0;max-width:80ch}
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between}
+.ctl{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.ctl label{font-size:.75rem;color:var(--mut);display:grid;gap:3px}
+.ctl select{font:inherit;padding:.4rem .5rem;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg)}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;width:fit-content;max-width:100%}
+.seg button{all:unset;cursor:pointer;padding:.5rem .95rem;font-size:.9rem;color:var(--mut)}
+.seg button[aria-selected="true"]{background:var(--s3);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--s3);outline-offset:-2px}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.tile .lab{font-size:.78rem;color:var(--mut)}
+.tile .big{font-family:var(--serif);font-size:1.9rem;font-variant-numeric:tabular-nums;line-height:1.15}
+.tile .sub{font-size:.78rem;color:var(--mut);margin-top:2px;font-variant-numeric:tabular-nums}
+.grid2{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr))}
+.chart{position:relative;min-height:240px;margin-top:12px}
+.scroll{overflow:auto;margin-top:12px;max-height:30rem}
+table{width:100%;border-collapse:collapse;font-size:.8rem;font-variant-numeric:tabular-nums}
+th,td{padding:.4rem .5rem;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child,.tl{text-align:left}
+td:first-child{white-space:normal;min-width:9rem}
+th{position:sticky;top:0;background:var(--panel);font-weight:600;z-index:1}
+th button{all:unset;cursor:pointer}th button:focus-visible{outline:2px solid var(--s3)}
+tr.tot td{font-weight:600;border-top:2px solid var(--line)}
+.up{color:var(--ok)}.down{color:var(--bad)}.warn{color:var(--warn)}
+.bar{display:inline-block;height:.5rem;border-radius:3px;background:var(--s3);vertical-align:middle;margin-left:.4rem}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:.78rem;white-space:nowrap;box-shadow:0 6px 20px rgb(0 0 0/.12)}
+.msg{padding:40px;text-align:center;color:var(--mut)}
+.aviso{border-left:3px solid var(--warn);padding:8px 12px;font-size:.82rem;background:var(--panel);border-radius:0 8px 8px 0;margin:0}
+.badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:99px;border:1px solid var(--warn);color:var(--warn);vertical-align:middle;margin-left:8px}
+.stack{display:flex;height:2.2rem;border-radius:8px;overflow:hidden;margin-top:12px;border:1px solid var(--line)}
+.stack div{display:grid;place-items:center;font-size:.78rem;color:#fff;white-space:nowrap;overflow:hidden}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.78rem;color:var(--mut);margin-top:8px}
+.leg i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:5px;vertical-align:-1px}
+ul.ins{margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;display:grid;gap:4px}
+.fuentes{font-size:.75rem;color:var(--mut)}
+.fuentes dt{font-weight:600;margin-top:6px}.fuentes dd{margin:0}
+[hidden]{display:none!important}
+@media (max-width:560px){.hide-n{display:none}}
+#acc{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:var(--bg)}
+#acc form{width:100%;max-width:20rem;display:grid;gap:12px}
+#acc h1{font-size:1.6rem}
+#acc label{display:grid;gap:4px;font-size:.85rem}
+#acc input{font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg)}
+#acc button{font:inherit;font-size:1rem;padding:11px;border:0;border-radius:8px;background:var(--s3);color:var(--bg);cursor:pointer}
+#acc button:disabled{opacity:.6}
+#acc .err{color:var(--bad);min-height:1.2em;font-size:.85rem}
+#salir{position:fixed;right:12px;bottom:10px;font:12px var(--sans);color:var(--mut);background:none;border:0;text-decoration:underline;cursor:pointer}
+@media print{#salir,.seg,.ctl{display:none}body{background:#fff}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>Cierres de mes<span class="badge" id="prov" hidden>PROVISORIO</span></h1><p class="note" id="rango">Autoclub · ventas, costos, personal y rentabilidad</p></div>
+    <div class="ctl">
+      <label>Mes<select id="mes"></select></label>
+      <label>Comparar con<select id="comp"></select></label>
+    </div>
+  </div>
+  <div class="seg" role="tablist" aria-label="Vista" id="tabs">
+    <button role="tab" data-v="resumen" aria-selected="true">Resumen</button>
+    <button role="tab" data-v="ventas" aria-selected="false">Ventas</button>
+    <button role="tab" data-v="costos" aria-selected="false">Costos y compras</button>
+    <button role="tab" data-v="personal" aria-selected="false">Personal</button>
+    <button role="tab" data-v="rent" aria-selected="false">Rentabilidad</button>
+    <button role="tab" data-v="meses" aria-selected="false">Comparar meses</button>
+  </div>
+  <div id="cuerpo"><div class="msg">Cargando…</div></div>
+</div>
+<script>
+(async function () {
+  const URL_ = 'https://rrsmeduifzgalmxbaacj.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyc21lZHVpZnpnYWxteGJhYWNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxNzMzNDMsImV4cCI6MjEwODc0OTM0M30.y__Xoz9-M-yUH1WNwoc7Z64-HOYqE2myjFDGYj1qwzc';
+  const db = window.supabase.createClient(URL_, KEY, { auth: { persistSession: true, storageKey: 'autoclub_cierres_sesion' } });
+
+  // ---------------- acceso
+  async function entrar() {
+    const { data } = await db.auth.getSession();
+    if (data.session) return;
+    await new Promise(resolve => {
+      const d = document.createElement('div'); d.id = 'acc';
+      d.innerHTML = `<form autocomplete="on"><h1>Cierres de mes</h1><p class="note">Autoclub · acceso restringido.</p>
+        <label>Usuario<input name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label>
+        <label>Clave<input name="password" type="password" autocomplete="current-password" required></label>
+        <button>Entrar</button><div class="err" role="alert"></div></form>`;
+      document.body.appendChild(d);
+      const f = d.querySelector('form'), err = d.querySelector('.err'), btn = d.querySelector('button'); f.username.focus();
+      f.onsubmit = async ev => {
+        ev.preventDefault(); err.textContent = ''; btn.disabled = true;
+        const u = f.username.value.trim().toLowerCase();
+        const { error } = await db.auth.signInWithPassword({ email: u.includes('@') ? u : u + '@autoclub.local', password: f.password.value });
+        btn.disabled = false;
+        if (error) { err.textContent = 'Usuario o clave incorrectos.'; return; }
+        try { if (window.PasswordCredential) await navigator.credentials.store(new PasswordCredential({ id: u, password: f.password.value, name: 'Autoclub cierres' })); } catch (e) {}
+        d.remove(); resolve();
+      };
+    });
+  }
+  await entrar();
+  const so = document.createElement('button'); so.id = 'salir'; so.textContent = 'Cerrar sesión'; so.onclick = async () => { await db.auth.signOut(); location.reload(); }; document.body.appendChild(so);
+
+  // ---------------- datos
+  const { data: filas, error } = await db.from('cierre_mes').select('periodo,etiqueta,provisorio,datos').order('periodo');
+  const cuerpo = document.getElementById('cuerpo');
+  if (error || !filas || !filas.length) { cuerpo.innerHTML = '<div class="msg">No hay cierres cargados o tu usuario no tiene permiso. ' + (error ? error.message : '') + '</div>'; return; }
+  const M = filas.map(f => ({ ...f.datos, periodo: f.periodo, etiqueta: f.etiqueta, provisorio: f.provisorio }));
+
+  // ---------------- utilidades
+  const clp = v => v == null || isNaN(v) ? '—' : (v < 0 ? '−$' : '$') + Math.abs(Math.round(v)).toLocaleString('es-CL');
+  const mm = v => (v < 0 ? '−$' : '$') + (Math.abs(v) / 1e6).toLocaleString('es-CL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' MM';
+  const int = v => Math.round(v).toLocaleString('es-CL');
+  const pc = (v, d = 1) => v == null || !isFinite(v) ? '—' : (v * 100).toLocaleString('es-CL', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+  const DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const wd = f => (new Date(f + 'T12:00:00').getDay() + 6) % 7;
+  const fmtF = f => new Date(f + 'T12:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric', month: 'short' });
+  const lunes = f => { const d = new Date(f + 'T12:00:00'); d.setDate(d.getDate() - wd(f)); return d.toISOString().slice(0, 10); };
+  const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+  const UMBRAL = 100000; // un día con menos de esto (ej. 5-oct, $84) fue prueba: no entra en promedios ni en "día más bajo"
+  const diasReales = m => m.ventas_dia.filter(d => d.v >= UMBRAL);
+  const excl = m => m.ventas_dia.filter(d => d.v < UMBRAL);
+  // variación: bueno = true cuando subir es bueno
+  const delta = (a, b, { pct = false, bueno = true, f = clp } = {}) => {
+    if (b == null || a == null) return '';
+    const d = pct ? a - b : (b ? a / b - 1 : null); if (d == null || !isFinite(d)) return '';
+    const mejor = bueno ? d > 0 : d < 0, cls = Math.abs(d) < (pct ? 0.0005 : 0.0005) ? '' : mejor ? 'up' : 'down';
+    const txt = pct ? (d > 0 ? '+' : '') + (d * 100).toLocaleString('es-CL', { maximumFractionDigits: 1 }) + ' pts' : (d > 0 ? '+' : '') + pc(d, 1);
+    return ` <span class="${cls}">${txt}</span>`;
+  };
+
+  const tip = el => d3.select(el).append('div').attr('class', 'tip').style('opacity', 0);
+  function barras(el, datos, { x, y, label, fmt, color = 'var(--s3)', rot = false }) {
+    el.innerHTML = ''; if (!datos.length) { el.innerHTML = '<div class="msg">Sin datos</div>'; return; }
+    const W = Math.max(300, el.clientWidth), H = 240, ml = 54, mb = rot ? 52 : 34;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const mx = d3.max(datos, y) || 1, mn = Math.min(0, d3.min(datos, y));
+    const sx = d3.scaleBand(datos.map(x), [ml, W - 4]).padding(0.2), sy = d3.scaleLinear([mn * 1.08, mx * 1.08], [H - mb, 8]).nice();
+    sy.ticks(4).forEach(t => { svg.append('line').attr('x1', ml).attr('x2', W - 4).attr('y1', sy(t)).attr('y2', sy(t)).attr('stroke', 'var(--grid)');
+      svg.append('text').attr('x', ml - 6).attr('y', sy(t)).attr('dy', '0.32em').attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', 'var(--mut)').text(fmt(t)); });
+    const every = Math.ceil(datos.length / Math.max(3, Math.floor((W - ml) / 46))), T = tip(el);
+    svg.selectAll('rect').data(datos).join('rect').attr('x', d => sx(x(d))).attr('width', sx.bandwidth()).attr('y', d => Math.min(sy(y(d)), sy(0))).attr('height', d => Math.abs(sy(0) - sy(y(d)))).attr('rx', 2)
+      .attr('fill', d => typeof color === 'function' ? color(d) : color)
+      .on('mousemove', (ev, d) => { T.html(label(d)); const [px, py] = d3.pointer(ev, el); T.style('left', Math.min(Math.max(0, px + 10), el.clientWidth - T.node().offsetWidth) + 'px').style('top', Math.max(0, py - 40) + 'px').style('opacity', 1); })
+      .on('mouseleave', () => T.style('opacity', 0));
+    svg.selectAll('text.xl').data(datos.filter((_, i) => i % every === 0)).join('text').attr('class', 'xl').attr('x', d => sx(x(d)) + sx.bandwidth() / 2).attr('y', H - 14)
+      .attr('text-anchor', 'middle').attr('font-size', 10).attr('fill', 'var(--mut)').text(d => /^\d{4}-\d\d-\d\d$/.test(x(d)) ? x(d).slice(8) + '/' + x(d).slice(5, 7) : x(d));
+  }
+  function tabla(cols, rows, { max = 999, sort, total, fijo } = {}) {
+    let st = { k: sort || cols[0].k, dir: cols[0].k === sort && cols[0].tl ? 1 : -1 };
+    const wrap = document.createElement('div'); wrap.className = 'scroll';
+    const draw = () => {
+      const rs = (fijo ? rows.slice() : rows.slice().sort((a, b) => { const x = a[st.k], y = b[st.k]; return (x == null) - (y == null) || (typeof x === 'string' ? x.localeCompare(y) : x - y) * st.dir; })).slice(0, max);
+      const cell = (c, r) => `<td class="${c.tl ? 'tl' : ''} ${c.n ? 'hide-n' : ''} ${c.cls ? c.cls(r) : ''}">${c.f ? c.f(r) : r[c.k]}</td>`;
+      wrap.innerHTML = '<table><thead><tr>' + cols.map(c => `<th class="${c.tl ? 'tl' : ''} ${c.n ? 'hide-n' : ''}"><button data-k="${c.k}">${c.t}</button></th>`).join('') + '</tr></thead><tbody>' +
+        rs.map(r => '<tr>' + cols.map(c => cell(c, r)).join('') + '</tr>').join('') +
+        (total ? '<tr class="tot">' + cols.map(c => cell(c, total)).join('') + '</tr>' : '') + '</tbody></table>';
+      wrap.querySelectorAll('th button').forEach(b => b.onclick = () => { const k = b.dataset.k; st = st.k === k ? { k, dir: -st.dir } : { k, dir: cols.find(c => c.k === k).tl ? 1 : -1 }; draw(); });
+    };
+    draw(); return wrap;
+  }
+  const tile = (lab, big, sub) => `<div class="card tile"><div class="lab">${lab}</div><div class="big">${big}</div><div class="sub">${sub || ''}</div></div>`;
+  const sect = (t, nota, inner = '') => { const s = document.createElement('section'); s.className = 'card'; s.innerHTML = `<h2>${t}</h2>${nota ? `<p class="note">${nota}</p>` : ''}` + inner; return s; };
+  const aviso = html => `<p class="aviso">${html}</p>`;
+  const stack = parts => { const tot = sum(parts.filter(p => p.v > 0), p => p.v);
+    return '<div class="stack">' + parts.filter(p => p.v > 0).map(p => `<div style="width:${p.v / tot * 100}%;background:${p.c}" title="${p.t}: ${pc(p.v / tot)}">${p.v / tot > 0.07 ? pc(p.v / tot, 0) : ''}</div>`).join('') + '</div>' +
+      '<div class="leg">' + parts.map(p => `<span><i style="background:${p.c}"></i>${p.t}: ${pc(p.v / tot)}</span>`).join('') + '</div>'; };
+  const gc = (el, kids) => { const g = document.createElement('div'); g.className = 'grid2'; kids.forEach(k => g.append(k)); el.append(g); };
+
+  // ---------------- vistas
+  function vResumen(m, c, el) {
+    const i = m.ind, ci = c && c.ind, dr = diasReales(m);
+    const venta = i.venta, vd = venta / dr.length;
+    el.insertAdjacentHTML('beforeend', '<div class="tiles">' +
+      tile('Venta neta (sin IVA)', mm(venta), `${clp(venta * 1.19)} con IVA · ${dr.length} días con venta real${m.ventas_dia.length > dr.length ? ' (+' + (m.ventas_dia.length - dr.length) + ' de prueba)' : ''}${ci ? '<br>vs ' + c.etiqueta + ':' + delta(venta, ci.venta) : ''}`) +
+      tile('Costo de materia prima', pc(i.costo_directo_pct), `${mm(i.consumo)} de consumo real${ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.costo_directo_pct, ci.costo_directo_pct, { pct: true, bueno: false }) : ''}`) +
+      tile('Personal', pc(i.personal_pct), `${mm(i.personal)} costo empresa${ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.personal_pct, ci.personal_pct, { pct: true, bueno: false }) : ''}`) +
+      tile('Margen tras MP y personal', mm(i.margen), `${pc(i.margen_pct)} de la venta${ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.margen_pct, ci.margen_pct, { pct: true }) : ''}`) +
+      tile('Venta por día de operación', clp(vd), `promedio, ${dr.length} días${ci ? '<br>vs ' + c.etiqueta + ':' + delta(vd, ci.venta / diasReales(c).length) : ''}`) + '</div>');
+    if (!c) el.insertAdjacentHTML('beforeend', aviso('Es el único cierre cargado, así que no hay con qué comparar todavía. Al cargar el siguiente mes, cada indicador mostrará su variación y se activará la pestaña <b>Comparar meses</b>.'));
+    const s = sect('Dónde va cada $100 de venta', 'Materia prima = inventario inicial + compras de alimentos y bebestibles − inventario final. Personal = costo empresa del libro de remuneraciones. Lo que queda es margen antes de arriendo, servicios, impuestos y otros gastos.',
+      stack([{ t: 'Materia prima', v: i.consumo, c: 'var(--s4)' }, { t: 'Personal', v: i.personal, c: 'var(--s2)' }, { t: 'Margen', v: Math.max(0, i.margen), c: 'var(--ok)' }])); el.append(s);
+    // lectura rápida (solo hechos del período)
+    const pdw = DIAS.map((n, k) => { const x = dr.filter(d => wd(d.f) === k); return { n, v: x.length ? sum(x, d => d.v) / x.length : 0, c: x.length }; }).filter(d => d.c);
+    const mejorDia = pdw.reduce((a, b) => b.v > a.v ? b : a), mejorFecha = dr.reduce((a, b) => b.v > a.v ? b : a);
+    const top = m.productos.filter(p => p.neto > 0).slice(0, 3), rub0 = m.rubros[0];
+    const sinCosto = 1 - i.cobertura_costo_receta;
+    const L = [`Mejor día de la semana: <b>${mejorDia.n}</b> (promedio ${clp(mejorDia.v)} neto, ${mejorDia.c} días). Mejor día del mes: <b>${fmtF(mejorFecha.f)}</b> con ${clp(mejorFecha.v)}.`,
+      `Productos más vendidos en dinero: ${top.map(p => `<b>${p.p}</b> (${clp(p.neto)})`).join(', ')}.`,
+      `Rubro que más vende: <b>${rub0.rubro}</b>, ${pc(rub0.neto / m.ranking_neto)} de la venta del POS.`,
+      `Costo de materia prima real ${pc(i.costo_directo_pct)} frente a ${pc(i.costo_receta_pct)} que dan las recetas (sobre el ${pc(i.cobertura_costo_receta, 0)} de la venta que tiene costo de receta): ${i.costo_directo_pct > i.costo_receta_pct ? 'la diferencia es merma, porciones de más, inventario estimado o compras de bodega' : 'consumo real por debajo de la receta: revisar inventario'}.`];
+    const r = sect('Lectura rápida'); r.insertAdjacentHTML('beforeend', '<ul class="ins">' + L.map(x => `<li>${x}</li>`).join('') + '</ul>'); el.append(r);
+    if (m.notas && m.notas.length) { const n = sect('Notas de este cierre', 'Tal como quedaron en el libro de análisis de costos.'); n.insertAdjacentHTML('beforeend', '<ul class="ins">' + m.notas.map(x => `<li>${x}</li>`).join('') + '</ul>'); el.append(n); }
+    const fu = sect('De dónde sale cada cifra'); fu.insertAdjacentHTML('beforeend', '<dl class="fuentes">' + Object.entries(m.fuentes).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('') + `</dl><p class="fuentes">Datos cargados el ${m.generado.replace('T', ' ')}.</p>`); el.append(fu);
+  }
+
+  function vVentas(m, c, el) {
+    const dr = diasReales(m), venta = sum(m.ventas_dia, d => d.v), vd = venta / dr.length;
+    const mejor = dr.reduce((a, b) => b.v > a.v ? b : a), peor = dr.reduce((a, b) => b.v < a.v ? b : a);
+    const cvd = c ? c.ind.venta / diasReales(c).length : null;
+    el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Venta neta', mm(venta), `${dr.length} días de operación`) + tile('Promedio por día', clp(vd), c ? 'vs ' + c.etiqueta + ':' + delta(vd, cvd) : 'neto, sin IVA') +
+      tile('Mejor día', clp(mejor.v), fmtF(mejor.f)) + tile('Día más bajo', clp(peor.v), fmtF(peor.f)) + '</div>');
+    const ex = excl(m); if (ex.length) el.insertAdjacentHTML('beforeend', aviso(`No cuentan en promedios ni en "día más bajo" los días bajo ${clp(UMBRAL)} (prueba de apertura): ${ex.map(d => fmtF(d.f) + ' ' + clp(d.v)).join(', ')}. Sí suman en la venta total.`));
+    const s1 = sect('Venta neta por día', 'Barras oscuras: viernes y sábado.', '<div class="chart" id="ch-dia"></div>'); el.append(s1);
+    barras(s1.querySelector('#ch-dia'), m.ventas_dia, { x: d => d.f, y: d => d.v, fmt: v => v >= 1e6 ? (v / 1e6).toLocaleString('es-CL') + ' MM' : int(v / 1000) + ' mil', label: d => `<b>${fmtF(d.f)}</b><br>${clp(d.v)} neto`, color: d => [4, 5].includes(wd(d.f)) ? 'var(--s3)' : 'var(--s2)' });
+    const pdw = DIAS.map((n, k) => { const x = dr.filter(d => wd(d.f) === k); return { n, v: x.length ? sum(x, d => d.v) / x.length : 0, c: x.length, t: sum(x, d => d.v) }; }).filter(d => d.c);
+    const s2 = sect('Venta promedio por día de la semana', 'Promedio neto de los días abiertos de cada día. Domingo funciona con un solo turno.', '<div class="chart" id="ch-wd"></div>');
+    const tot = sum(pdw, d => d.t);
+    const s3 = sect('Peso de cada día en la venta del mes'); s3.append(tabla([{ k: 'n', t: 'Día', tl: true }, { k: 'c', t: 'Días', f: r => r.c }, { k: 'v', t: 'Promedio', f: r => clp(r.v) + `<span class="bar" style="width:${r.v / (d3.max(pdw, x => x.v) || 1) * 4}rem"></span>` }, { k: 't', t: 'Total', f: r => clp(r.t) }, { k: 'p', t: '% del mes', f: r => pc(r.t / tot) }], pdw.map(d => ({ ...d, p: d.t / tot })), { sort: 'v' }));
+    gc(el, [s2, s3]); barras(s2.querySelector('#ch-wd'), pdw, { x: d => d.n.slice(0, 3), y: d => d.v, fmt: v => int(v / 1000) + ' mil', label: d => `<b>${d.n}</b><br>${clp(d.v)} promedio · ${d.c} días` });
+    const sem = new Map(); dr.forEach(d => { const k = lunes(d.f); const g = sem.get(k) || { k, v: 0, n: 0 }; g.v += d.v; g.n++; sem.set(k, g); });
+    const ws = [...sem.values()].sort((a, b) => a.k < b.k ? -1 : 1).map(g => ({ ...g, vd: g.v / g.n }));
+    const s4 = sect('Por semana', 'Semana que parte el lunes indicado; las semanas incompletas se comparan por promedio diario.'); s4.append(tabla([{ k: 'k', t: 'Semana del', tl: true, f: r => fmtF(r.k) }, { k: 'n', t: 'Días' }, { k: 'v', t: 'Venta', f: r => clp(r.v) }, { k: 'vd', t: 'Por día', f: r => clp(r.vd) }], ws, { sort: 'k' }));
+    const rub = m.rubros, mx = rub[0] ? rub[0].neto : 1;
+    const s5 = sect('Mix de venta por rubro', 'Según el ranking del POS (neto). Difiere ' + pc(m.ranking_neto / m.ind.venta - 1, 2) + ' del libro de ventas (fuente oficial de la venta total).');
+    s5.append(tabla([{ k: 'rubro', t: 'Rubro', tl: true }, { k: 'neto', t: 'Venta neta', f: r => clp(r.neto) + `<span class="bar" style="width:${r.neto / mx * 3}rem"></span>` }, { k: 'p', t: '% de la venta', f: r => pc(r.neto / m.ranking_neto) }, { k: 'un', t: 'Unid.', f: r => int(r.un), n: true }], rub.map(r => ({ ...r, p: r.neto / m.ranking_neto })), { sort: 'neto' }));
+    gc(el, [s4, s5]);
+    const pr = m.productos;
+    const s6 = sect('Productos más vendidos', 'Ordena tocando el título. Unidades según el POS ("cantidad con insumos").'); s6.append(tabla([{ k: 'p', t: 'Producto', tl: true }, { k: 'r', t: 'Rubro', tl: true, n: true }, { k: 'un', t: 'Unid.', f: r => int(r.un) }, { k: 'neto', t: 'Venta neta', f: r => clp(r.neto) }, { k: 'pp', t: '% venta', f: r => pc(r.neto / m.ranking_neto), n: true }], pr.map(p => ({ ...p, pp: p.neto / m.ranking_neto })), { sort: 'neto', max: 40 }));
+    el.append(s6);
+  }
+
+  function vCostos(m, c, el) {
+    const i = m.ind, ci = c && c.ind;
+    el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Compras de materia prima', mm(i.compras_mp), 'neto + impuesto específico de bebidas' + (ci ? '<br>vs ' + c.etiqueta + ':' + delta(i.compras_mp, ci.compras_mp, { bueno: false }) : '')) +
+      tile('Inventario final', mm(i.inv_final), 'valorizado con precio de factura') + tile('Consumo real', mm(i.consumo), `${pc(i.costo_directo_pct)} de la venta`) + tile('Compras / venta', pc(i.compras_mp / i.venta), 'no es el costo (no considera inventario)') + '</div>');
+    const cons = sect('Cómo se calcula el consumo real');
+    cons.append(tabla([{ k: 'c', t: 'Concepto', tl: true }, { k: 'v', t: 'Monto', f: r => clp(r.v) }, { k: 'p', t: '% de la venta', f: r => pc(r.v / i.venta) }],
+      [{ c: 'Inventario inicial', v: i.inv_inicial }, { c: '+ Compras de alimentos y bebestibles', v: i.compras_mp }, { c: '− Inventario final', v: -i.inv_final }], { fijo: true, total: { c: '= Consumo real', v: i.consumo, p: 0 } }));
+    const inv = sect('Inventario final por familia', 'Conteo físico valorizado. Aseo y desechables están dentro de "Otros / aseo".'); inv.append(tabla([{ k: 'fam', t: 'Familia', tl: true }, { k: 'v', t: 'Valor', f: r => clp(r.v) + `<span class="bar" style="width:${r.v / (m.inventario_familia[0].v || 1) * 3}rem"></span>` }, { k: 'p', t: '%', f: r => pc(r.v / i.inv_final) }], m.inventario_familia.map(f => ({ ...f, p: f.v / i.inv_final })), { sort: 'v' }));
+    gc(el, [cons, inv]);
+    const tc = sum(m.compras_categoria, x => x.v);
+    const cat = sect('Compras del período por categoría', 'Solo ALIMENTOS entra al costo de materia prima. Implementación, equipamiento y uniformes son inversión de apertura y no se restan del margen.');
+    cat.append(tabla([{ k: 'cat', t: 'Categoría', tl: true }, { k: 'v', t: 'Monto', f: r => clp(r.v) }, { k: 'p', t: '% del total', f: r => pc(r.v / tc) }, { k: 'e', t: 'En el margen', tl: true, n: true, f: r => r.cat === 'ALIMENTOS' ? 'Sí' : 'No (aparte)' }], m.compras_categoria.map(x => ({ ...x, p: x.v / tc, e: x.cat })), { sort: 'v', total: { cat: 'Total', v: tc, p: 1, e: '' } }));
+    const pv = sect('Proveedores de alimentos y bebestibles', 'Los 25 con más compras (neto + impuesto específico), del libro de compras.');
+    const ta = i.compras_mp; pv.append(tabla([{ k: 'prov', t: 'Proveedor', tl: true }, { k: 'v', t: 'Monto', f: r => clp(r.v) + `<span class="bar" style="width:${r.v / (m.compras_prov[0].v || 1) * 3}rem"></span>` }, { k: 'p', t: '% de alimentos', f: r => pc(r.v / ta) }, { k: 'n', t: 'Facturas', n: true }], m.compras_prov.map(x => ({ ...x, p: x.v / ta })), { sort: 'v' }));
+    gc(el, [cat, pv]);
+    el.insertAdjacentHTML('beforeend', aviso('Este cierre no incluye arriendo, servicios básicos, impuestos ni otros gastos fijos: solo materia prima y personal. Si los quieres en el margen hay que cargarlos al cierre.'));
+  }
+
+  function vPersonal(m, c, el) {
+    const i = m.ind, P = m.personal, tp = sum(P, p => p.personas), th = sum(P, p => p.haberes), ta = sum(P, p => p.aportes), tc = sum(P, p => p.costo);
+    const cp = c && c.ind;
+    el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Costo empresa', mm(tc), `${tp} personas · ${clp(tc / tp)} por persona`) + tile('% de la venta', pc(tc / i.venta), cp ? 'vs ' + c.etiqueta + ':' + delta(tc / i.venta, cp.personal_pct, { pct: true, bueno: false }) : 'costo empresa / venta neta') +
+      tile('Sin pago extraordinario', pc(i.personal_sin_extra / i.venta), mm(i.personal_sin_extra) + (m.personal_extra ? ' · quitando ' + clp(m.personal_extra.monto) : '')) + tile('Aportes del empleador', pc(ta / th), `${clp(ta)} sobre ${clp(th)} de haberes`) + '</div>');
+    if (m.personal_extra) el.insertAdjacentHTML('beforeend', aviso(m.personal_extra.concepto + ': ' + clp(m.personal_extra.monto) + '. Se muestra aparte porque no se repite cada mes.'));
+    const s = sect('Costo por cargo', 'Sin nombres. Fuente: libro de remuneraciones. No incluye gratificación, vacaciones ni indemnización si no vienen en el libro.');
+    s.append(tabla([{ k: 'cargo', t: 'Cargo', tl: true }, { k: 'personas', t: 'Personas' }, { k: 'haberes', t: 'Haberes', f: r => clp(r.haberes), n: true }, { k: 'aportes', t: 'Aportes', f: r => clp(r.aportes), n: true }, { k: 'costo', t: 'Costo empresa', f: r => clp(r.costo) + `<span class="bar" style="width:${r.costo / (d3.max(P, x => x.costo) || 1) * 3}rem"></span>` }, { k: 'pp', t: 'Por persona', f: r => clp(r.pp) }, { k: 'pv', t: '% venta', f: r => pc(r.costo / i.venta) }, { k: 'pt', t: '% del personal', f: r => pc(r.costo / tc), n: true }],
+      P.map(p => ({ ...p, pp: p.costo / p.personas, pv: p.costo / i.venta, pt: p.costo / tc })), { sort: 'costo', total: { cargo: 'Total', personas: tp, haberes: th, aportes: ta, costo: tc, pp: tc / tp, pv: tc / i.venta, pt: 1 } }));
+    el.append(s);
+    const grupos = { 'Cocina': ['COCINERO/A', 'JEFE DE COCINA', 'AYUDANTE DE COCINA', 'MAESTRO DE COCINA', 'COPERO/A Y ASEO'], 'Sala y barra': ['GARZON/A', 'BARTENDER', 'AUXILIAR DE BARRA', 'CAJERO/A'], 'Administración': ['ADMINISTRADOR RESTAURANTE'] };
+    const G = Object.entries(grupos).map(([g, cs]) => ({ g, costo: sum(P.filter(p => cs.includes(p.cargo)), p => p.costo), personas: sum(P.filter(p => cs.includes(p.cargo)), p => p.personas) }));
+    const otros = P.filter(p => !Object.values(grupos).flat().includes(p.cargo)); if (otros.length) G.push({ g: 'Otros', costo: sum(otros, p => p.costo), personas: sum(otros, p => p.personas) });
+    const s2 = sect('Por área', 'Agrupación de cargos hecha para este panel (cocina incluye copería y aseo).'); s2.append(tabla([{ k: 'g', t: 'Área', tl: true }, { k: 'personas', t: 'Personas' }, { k: 'costo', t: 'Costo empresa', f: r => clp(r.costo) }, { k: 'pv', t: '% venta', f: r => pc(r.costo / i.venta) }, { k: 'pt', t: '% del personal', f: r => pc(r.costo / tc) }], G.map(x => ({ ...x, pv: x.costo / i.venta, pt: x.costo / tc })), { sort: 'costo' }));
+    el.append(s2);
+  }
+
+  function vRent(m, c, el) {
+    const i = m.ind, pr = m.productos, conC = pr.filter(p => p.cu != null && p.neto_con > 0);
+    el.insertAdjacentHTML('beforeend', '<div class="tiles">' + tile('Margen tras MP y personal', mm(i.margen), pc(i.margen_pct) + ' de la venta' + (c ? '<br>vs ' + c.etiqueta + ':' + delta(i.margen_pct, c.ind.margen_pct, { pct: true }) : '')) +
+      tile('Costo real de MP', pc(i.costo_directo_pct), 'consumo de inventario / venta') + tile('Costo según recetas', pc(i.costo_receta_pct), `sobre el ${pc(i.cobertura_costo_receta, 0)} de la venta con costo`) + tile('Brecha real − receta', ((i.costo_directo_pct - i.costo_receta_pct) * 100).toLocaleString('es-CL', { maximumFractionDigits: 1 }) + ' pts', 'merma, porciones, inventario estimado') + '</div>');
+    el.insertAdjacentHTML('beforeend', aviso(`El margen por producto se calcula solo con los productos cuyo nombre calza con Pricing (costo real de receta, corte ${m.costo_corte}): <b>${pc(i.cobertura_costo_receta, 0)}</b> de la venta. Sin costo no se muestra margen (no se estima). La brecha contra el costo real mezcla dos medidas distintas: no es un error, es la pista de dónde mirar.`));
+    const rr = m.rubros.map(r => ({ ...r, mg: r.neto_con ? 1 - r.costo / r.neto_con : null, mgd: r.neto_con - r.costo, cob: r.neto ? r.neto_con / r.neto : 0 }));
+    const s1 = sect('Margen de receta por rubro', 'Margen = venta − costo de receta, solo sobre lo que tiene costo. "Cobertura" = parte del rubro con costo.');
+    s1.append(tabla([{ k: 'rubro', t: 'Rubro', tl: true }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg) }, { k: 'mgd', t: 'Margen $', f: r => r.neto_con ? clp(r.mgd) : '—' }, { k: 'cob', t: 'Cobertura', f: r => pc(r.cob, 0), cls: r => r.cob < .5 ? 'warn' : '' }], rr, { sort: 'neto' })); el.append(s1);
+    const pm = conC.filter(p => p.neto >= 150000).map(p => ({ ...p, mg: 1 - p.costo / p.neto_con, mgd: p.neto_con - p.costo }));
+    const s2 = sect('Productos con menor margen %', 'Solo productos con venta de $150.000 o más en el mes y costo conocido.'); s2.append(tabla([{ k: 'p', t: 'Producto', tl: true }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }, { k: 'cu', t: 'Costo unit.', f: r => clp(r.cu), n: true }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg), cls: r => r.mg < .6 ? 'warn' : '' }], pm.sort((a, b) => a.mg - b.mg).slice(0, 15), { sort: 'mg' }));
+    const s3 = sect('Productos que más margen dejan ($)', 'Margen de receta en pesos: lo que más aporta al negocio.'); s3.append(tabla([{ k: 'p', t: 'Producto', tl: true }, { k: 'un', t: 'Unid.', f: r => int(r.un) }, { k: 'mgd', t: 'Margen $', f: r => clp(r.mgd) }, { k: 'mg', t: 'Margen %', f: r => pc(r.mg) }], pm.slice().sort((a, b) => b.mgd - a.mgd).slice(0, 15), { sort: 'mgd' }));
+    gc(el, [s2, s3]);
+    const sin = pr.filter(p => p.cu == null).slice(0, 15);
+    const s4 = sect('Mayores ventas sin costo de receta', 'Pendientes de costear o de confirmar a qué producto de Pricing equivalen.'); s4.append(tabla([{ k: 'p', t: 'Producto del POS', tl: true }, { k: 'r', t: 'Rubro', tl: true, n: true }, { k: 'un', t: 'Unid.', f: r => int(r.un) }, { k: 'neto', t: 'Venta', f: r => clp(r.neto) }], sin, { sort: 'neto' })); el.append(s4);
+  }
+
+  function vMeses(el) {
+    if (M.length < 2) { el.insertAdjacentHTML('beforeend', aviso(`Hay un solo cierre cargado (<b>${M[0].etiqueta}</b>). Esta pestaña compara todos los meses lado a lado y se llena sola al cargar el siguiente. Para cargarlo: <code>cierre_mes.py preparar AAAA-MM</code> y luego <code>cargar AAAA-MM</code>.`)); }
+    const ind = [
+      ['Venta neta', m => m.ind.venta, clp, true], ['Días de operación', m => diasReales(m).length, int, true], ['Venta por día', m => m.ind.venta / diasReales(m).length, clp, true],
+      ['Compras de MP', m => m.ind.compras_mp, clp, false], ['Consumo real de MP', m => m.ind.consumo, clp, false], ['Costo de MP % venta', m => m.ind.costo_directo_pct, pc, false, true],
+      ['Personal (costo empresa)', m => m.ind.personal, clp, false], ['Personal % venta', m => m.ind.personal_pct, pc, false, true], ['Personal sin extraordinario % venta', m => m.ind.personal_sin_extra / m.ind.venta, pc, false, true],
+      ['Margen tras MP y personal', m => m.ind.margen, clp, true], ['Margen % venta', m => m.ind.margen_pct, pc, true, true], ['Costo según recetas %', m => m.ind.costo_receta_pct, pc, false, true]];
+    const s = sect('Indicadores por mes', 'Cada columna es un cierre. La variación es contra el mes anterior. Los meses provisorios llevan *.');
+    const rows = ind.map(([n, f, fm, bueno, pct]) => { const o = { n }; M.forEach((m, k) => { const v = f(m); o['m' + k] = v; o['t' + k] = fm(v) + (k ? delta(v, f(M[k - 1]), { pct: !!pct, bueno }) : ''); }); return o; });
+    s.append(tabla([{ k: 'n', t: 'Indicador', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta + (m.provisorio ? '*' : ''), f: r => r['t' + k] }))], rows, { fijo: true })); el.append(s);
+    if (M.length >= 2) {
+      const ch = [['Venta neta', m => m.ind.venta, v => mm(v)], ['Costo de MP % venta', m => m.ind.costo_directo_pct, v => pc(v)], ['Personal % venta', m => m.ind.personal_pct, v => pc(v)], ['Margen % venta', m => m.ind.margen_pct, v => pc(v)]];
+      const g = ch.map(([t, f, fm]) => { const x = sect(t, '', '<div class="chart" style="min-height:200px"></div>'); setTimeout(() => barras(x.querySelector('.chart'), M.map(m => ({ n: m.etiqueta.split(' ')[0].slice(0, 3), v: f(m), full: m.etiqueta })), { x: d => d.n, y: d => d.v, fmt: v => fm(v), label: d => `<b>${d.full}</b><br>${fm(d.v)}` }), 0); return x; });
+      gc(el, g);
+      const rubros = [...new Set(M.flatMap(m => m.rubros.map(r => r.rubro)))];
+      const rt = rubros.map(r => { const o = { rubro: r }; M.forEach((m, k) => { const x = m.rubros.find(y => y.rubro === r); o['m' + k] = x ? x.neto / m.ranking_neto : 0; }); return o; });
+      const s2 = sect('Mix de venta por rubro (% de la venta del POS)'); s2.append(tabla([{ k: 'rubro', t: 'Rubro', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta, f: r => pc(r['m' + k]) }))], rt, { sort: 'm' + (M.length - 1) })); el.append(s2);
+      const s3 = sect('Venta promedio por día de la semana'); const wk = DIAS.map((n, w) => { const o = { n }; M.forEach((m, k) => { const x = diasReales(m).filter(d => wd(d.f) === w); o['m' + k] = x.length ? sum(x, d => d.v) / x.length : null; }); return o; });
+      s3.append(tabla([{ k: 'n', t: 'Día', tl: true }, ...M.map((m, k) => ({ k: 'm' + k, t: m.etiqueta, f: r => clp(r['m' + k]) }))], wk, { fijo: true })); el.append(s3);
+    }
+  }
+
+  // ---------------- control
+  const selM = document.getElementById('mes'), selC = document.getElementById('comp');
+  M.slice().reverse().forEach(m => selM.insertAdjacentHTML('beforeend', `<option value="${m.periodo}">${m.etiqueta}${m.provisorio ? ' (provisorio)' : ''}</option>`));
+  let vista = 'resumen';
+  function llenaComp() {
+    const k = M.findIndex(m => m.periodo === selM.value);
+    selC.innerHTML = '<option value="">Sin comparar</option>' + M.filter((_, j) => j !== k).reverse().map(m => `<option value="${m.periodo}">${m.etiqueta}</option>`).join('');
+    selC.value = k > 0 ? M[k - 1].periodo : '';
+  }
+  function pintar() {
+    const m = M.find(x => x.periodo === selM.value), c = M.find(x => x.periodo === selC.value);
+    document.getElementById('prov').hidden = !m.provisorio;
+    document.getElementById('rango').textContent = `${m.etiqueta} · ventas del ${fmtF(m.ventas_dia[0].f)} al ${fmtF(m.ventas_dia[m.ventas_dia.length - 1].f)} · compras ${m.fuentes.compras.match(/facturas (.*)$/)[1].replace(' a ', ' al ')}`;
+    selM.parentElement.hidden = selC.parentElement.hidden = vista === 'meses';
+    cuerpo.innerHTML = '';
+    ({ resumen: vResumen, ventas: vVentas, costos: vCostos, personal: vPersonal, rent: vRent })[vista] ? ({ resumen: vResumen, ventas: vVentas, costos: vCostos, personal: vPersonal, rent: vRent })[vista](m, c, cuerpo) : vMeses(cuerpo);
+  }
+  document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => { document.querySelectorAll('#tabs button').forEach(x => x.setAttribute('aria-selected', x === b)); vista = b.dataset.v; pintar(); });
+  selM.onchange = () => { llenaComp(); pintar(); }; selC.onchange = pintar;
+  selM.value = M[M.length - 1].periodo; llenaComp(); pintar();
+  let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(pintar, 200); });
+})();
+</script>
+</body>
+</html>
